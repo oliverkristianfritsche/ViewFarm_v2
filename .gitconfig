@@ -1,0 +1,16 @@
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[user]
+	name = oliverkristianfritsche
+	email = 61664788+oliverkristianfritsche@users.noreply.github.com
+[safe]
+	directory = B:/SharedFolder/Projects/PhysicalProjects/GardenBotv2/software/gardenbot
+	directory = B:/Espressif/frameworks/esp-idf-v5.0.2/components/openthread/openthread
+	directory = B:/Espressif/frameworks/esp-idf-v5.0.2/components/openthread/openthread
+	directory = B:/Espressif/frameworks/esp-idf-v5.0.2/components/openthread/openthread
+	directory = B:/Espressif/frameworks/esp-idf-v5.0.2
+[credential]
+	helper = "!f() { /root/.vscode-server/bin/eaa41d57266683296de7d118f574d0c2652e1fc4/node /tmp/vscode-remote-containers-b9a3f912-cae3-4bf4-bd83-e166d349b9a6.js git-credential-helper $*; }; f"

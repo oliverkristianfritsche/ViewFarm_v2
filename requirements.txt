@@ -1,0 +1,13 @@
+pymongo
+bson
+selenium
+google-api-python-client
+python-dotenv
+isodate
+"pymongo[srv]"==3.11
+yt_dlp
+torch
+openai-whisper
+moviepy
+deep_translator
+TTS

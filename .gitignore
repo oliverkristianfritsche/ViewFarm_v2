@@ -1,0 +1,17 @@
+.env
+tests
+videos_files
+videos
+audio_files
+*.db
+*.wav
+*.mp3
+*.mp4
+config.json
+
+#ignore all pync files anywhere
+*.pyc
+# ignore hidden folders but keep hidden files
+.*
+!.gitignore
+!.gitconfig
