@@ -1,5 +1,5 @@
 .env
-tests
+# tests
 videos_files
 videos
 audio_files
