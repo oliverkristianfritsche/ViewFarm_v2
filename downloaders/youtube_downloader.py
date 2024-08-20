@@ -13,24 +13,23 @@ def download_video(video_id):
     :param video_id: The video ID to download.
     :return: None
     """
-    os.makedirs("/root/tmp", exist_ok=True)
-    #empty folder if for some reason it has something in it
-    files = os.listdir('/root/tmp')
-    for file in files:
-        os.remove(f'/root/tmp/{file}')
     try:
         # Construct the full YouTube URL
         video_url = f"https://www.youtube.com/watch?v={video_id}"
 
         ydl_opts = {
             'format': 'best',
-            'outtmpl': f'/root/tmp/{video_id}.mp4',  # Save the video with its ID as the filename
+            'outtmpl': f'/root/tmp/raw_shorts/{video_id}.mp4',  # Save the video with its ID as the filename
         }
 
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([video_url])
+        if not os.path.exists(ydl_opts['outtmpl']):
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([video_url])
 
-        print(f"Video {video_id} downloaded successfully.")
+            print(f"Video {video_id} downloaded successfully.")
+
+        else:
+            print(f"Video {video_id} already exists in the output directory. Skipping.")
     except Exception as e:
         print(f"Error downloading video {video_id}: {e}")
 
