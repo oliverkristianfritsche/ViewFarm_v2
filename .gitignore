@@ -8,6 +8,7 @@ audio_files
 *.mp3
 *.mp4
 config.json
+cookies.txt
 
 #ignore all pync files anywhere
 *.pyc
