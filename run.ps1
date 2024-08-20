@@ -5,5 +5,5 @@ $CurrentDir = Get-Location
 docker run -it --rm `
   --gpus all `
   -v "${CurrentDir}:/root" `
-  -p 8080:8080 `
+  -v "G:/My Drive/repurposeio:/root/reprocessio" `
   -w /root viewfarm_v2
