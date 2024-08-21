@@ -46,6 +46,9 @@ COPY requirements.txt .
 # Install Python packages from requirements.txt
 RUN python3.11 -m pip install -r requirements.txt
 
+RUN ulimit -n 4096
+RUN ulimit -u 4096
+
 # Ensure the NVIDIA driver files are available
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,video,utility

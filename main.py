@@ -30,7 +30,8 @@ def adjust_video_speed(video_path, speed):
 
 def generate_tts_with_fallback(text, filename, language):
     try:
-        tts_file_path, _ = generate_audio_tts_frog(text, filename, config["speaker_file"], language)
+        with contextlib.redirect_stdout(sys.stderr):
+            tts_file_path, _ = generate_audio_tts_frog(text, filename, config["speaker_file"], language)
         return tts_file_path
     except Exception as e:
         logging.error(f"Failed to generate TTS audio: {e}")
@@ -51,6 +52,15 @@ def split_text_into_chunks(text, max_tokens=200):
         chunks.append(' '.join(current_chunk))
 
     return chunks
+
+def truncate_filename(text, max_length=20):
+    """
+    Truncate the text to fit within the maximum filename length.
+    If truncation occurs, ellipses are added to the end.
+    """
+    if len(text) > max_length:
+        return text[:max_length-3] + '...'  # Truncate and append ellipses
+    return text
 
 def process_language(language, posts, downloaded_videos):
     language_dir = f'/root/reprocessio/{language}'
@@ -115,13 +125,16 @@ def process_language(language, posts, downloaded_videos):
         final_video = concatenate_videoclips(selected_videos, method="compose").set_audio(None)
         final_video = final_video.set_audio(final_audio).subclip(0, final_audio.duration)
 
-        final_output_path = os.path.join(language_dir, f"{translate_text_if_needed(post_details['title'],language)}.mp4")
+        # Truncate the filename to avoid issues with long file names
+        safe_title = truncate_filename(translate_text_if_needed(post_details['title'], language), max_length=20)
+        final_output_path = os.path.join(language_dir, f"{safe_title}.mp4")
         
         try:
             final_video.write_videofile(final_output_path, codec="libx264")
             print(f"Saved final video to {final_output_path}")
         except Exception as e:
             logging.error(f"Failed to write video for post {post_id} to {final_output_path}: {e}")
+
 
 if __name__ == "__main__":
     with contextlib.redirect_stdout(sys.stderr):  # Redirect stdout to suppress unwanted prints
