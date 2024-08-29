@@ -16,7 +16,7 @@ def init_reddit_client():
 
 def get_top_n_hot_threads(reddit, subreddit_name, n):
     subreddit = reddit.subreddit(subreddit_name)
-    hot_threads = subreddit.hot(limit=n)
+    hot_threads = subreddit.hot(limit=n+1)
 
     top_threads = []
     for submission in hot_threads:
@@ -29,7 +29,7 @@ def get_top_n_hot_threads(reddit, subreddit_name, n):
             'id': submission.id
         })
 
-    return top_threads
+    return top_threads[1:]
 
 def get_post_details(reddit, post_id):
     submission = reddit.submission(id=post_id)

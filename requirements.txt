@@ -12,3 +12,6 @@ moviepy
 deep_translator
 TTS
 pydub
+google-api-python-client
+praw
+tqdm

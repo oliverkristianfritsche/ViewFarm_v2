@@ -69,6 +69,7 @@ def process_language(language, posts, downloaded_videos):
     for post in tqdm(posts, desc=f"Processing posts for {language}"):
         os.makedirs('/root/tmp/audio_files', exist_ok=True)
         post_id = post['id']
+    
         post_details = get_post_details(reddit, post_id)
         post_text = post_details['title'] + '.' + post_details['body']
         
@@ -103,6 +104,8 @@ def process_language(language, posts, downloaded_videos):
                 break
 
             video_file = random.choice(downloaded_videos_copy)
+
+
             downloaded_videos_copy.remove(video_file)
 
             try:
@@ -126,7 +129,7 @@ def process_language(language, posts, downloaded_videos):
         final_video = final_video.set_audio(final_audio).subclip(0, final_audio.duration)
 
         # Truncate the filename to avoid issues with long file names
-        safe_title = truncate_filename(translate_text_if_needed(post_details['title'], language), max_length=20)
+        safe_title = truncate_filename(translate_text_if_needed(post_details['title'], language), max_length=30)
         final_output_path = os.path.join(language_dir, f"{safe_title}.mp4")
         
         try:
@@ -141,11 +144,21 @@ if __name__ == "__main__":
         trending_shorts = scrape_shorts()
 
     for video in tqdm(trending_shorts, desc="Downloading videos"):
-        video_id = video['id']
+        if config['youtubescrapper']['searchBy'] == 'trending':
+            video_id = video['id']
+        else:
+            video_id = video['id']['videoId']
         download_video(video_id)
 
-    downloaded_videos = [str(Path(f'/root/tmp/raw_shorts/{video["id"]}.mp4')) for video in trending_shorts]
+    #get paths of all mp4 files in /root/tmp/raw_shorts
+    downloaded_videos = []
+    for file in os.listdir('/root/tmp/raw_shorts'):
+        if file.endswith('.mp4'):
+            downloaded_videos.append(os.path.join('/root/tmp/raw_shorts', file))
 
+    print(downloaded_videos)
+
+    
     reddit = init_reddit_client()
     posts = get_top_n_hot_threads(reddit, config['subreddits'], config['num_posts'])
 
