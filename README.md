@@ -10,17 +10,17 @@
 ## Prerequisites
 - **PowerShell 5.1 or later**
 - **Python 3.8 or later**
-- **Required dependencies** installed (see `requirements.txt`)
+- **Docker installed
 
 ## Cloning the Repository
 1. Open PowerShell or your preferred terminal.
 2. Clone the repository by running the following command:
     ```bash
-    git clone https://github.com/yourusername/yourrepository.git
+    git clone https://github.com/oliverkristianfritsche/ViewFarm_v2
     ```
 3. Navigate to the project directory:
     ```bash
-    cd yourrepository
+    cd ViewFarm_v2
     ```
 
 ## Configuring the `config.json` File
