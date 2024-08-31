@@ -2,16 +2,18 @@ import praw
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+import json
 
-# Load environment variables from .env file in the home directory
-env_path = '/root/.env'
-load_dotenv(dotenv_path=env_path)
+config_path = '/root/config.json'
+
+config = json.load(open(config_path, 'r'))
+
 
 def init_reddit_client():
     return praw.Reddit(
-        client_id=os.getenv('CLIENT_ID'),
-        client_secret=os.getenv('CLIENT_SECRET'),
-        user_agent=os.getenv('USER_AGENT')
+        client_id=config['CLIENT_ID'],
+        client_secret=config['CLIENT_SECRET'],
+        user_agent=config['USER_AGENT']
     )
 
 def get_top_n_hot_threads(reddit, subreddit_name, n):
