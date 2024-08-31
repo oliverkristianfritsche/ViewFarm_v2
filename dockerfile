@@ -51,4 +51,4 @@ ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,video,utility
 
 # Default command
-CMD ["/bin/bash"]
+CMD ["python3.11", "main.py"]

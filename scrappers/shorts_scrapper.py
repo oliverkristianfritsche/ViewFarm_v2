@@ -5,17 +5,13 @@ import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from databases.ScrapedVideos_mongo import insert_scraped_video, get_video_by_id
+# from databases.ScrapedVideos_mongo import insert_scraped_video, get_video_by_id
 from utils import load_json
-from dotenv import load_dotenv
-
-# Load environment variables from .env file
-load_dotenv()
-api_key = os.getenv('YOUTUBE_API_KEY')
 
 # Load configuration from config.json
 config = load_json()
 
+api_key = config['YOUTUBE_API_KEY']
 # Set up the YouTube API client
 youtube = build("youtube", "v3", developerKey=api_key)
 
@@ -42,10 +38,12 @@ def insert_scraped_shorts():
         else:
             video_id = video['id']['videoId']
 
-        # Check if the video already exists in the database using video_exists function
-        if video_exists(video_id):
-            print(f"Video ID {video_id} already exists in the database. Skipping.")
-            continue
+        print(f"Processing video ID: {video_id}")
+
+        # # Check if the video already exists in the database using video_exists function
+        # if video_exists(video_id):
+        #     print(f"Video ID {video_id} already exists in the database. Skipping.")
+        #     continue
         
         # If it doesn't exist, proceed to insert
         link = f"https://www.youtube.com/watch?v={video_id}"
@@ -140,6 +138,8 @@ def scrape_shorts_by_hashtag(hashtag, max_results=None):
     :return: List of scraped video information.
     """
     max_results = max_results or config['youtubescrapper']['max_results']
+    
+    # Prepare the request to search for videos by hashtag
     request = youtube.search().list(
         part="snippet",
         q=f"#{hashtag}",
@@ -149,16 +149,29 @@ def scrape_shorts_by_hashtag(hashtag, max_results=None):
         videoType="any",
         order=config['youtubescrapper']['order']
     )
+    
+    # Execute the request
     response = request.execute()
     
-    video_ids = [item['id']['videoId'] for item in response.get('items', [])]
-    video_details = get_video_details(video_ids)
-
+    # Extract video IDs
+    video_ids = []
     for item in response.get('items', []):
-        video_id = item['id']['videoId']
-        item['details'] = video_details.get(video_id, {})
-
+        video_id = item.get('id', {}).get('videoId')
+        if isinstance(video_id, str):
+            video_ids.append(video_id)
+    
+    # Fetch details for the videos
+    video_details = get_video_details(video_ids)
+    
+    # Process each video item
+    for item in response.get('items', []):
+        video_id = item.get('id', {}).get('videoId')
+        if video_id and isinstance(video_id, str):
+            item['details'] = video_details.get(video_id, {})
+    
     return response.get('items', [])
+
+
 
 def scrape_trending_shorts(region_code=None, max_results=None):
     """
