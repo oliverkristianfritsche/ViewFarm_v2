@@ -7,15 +7,11 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 # from databases.ScrapedVideos_mongo import insert_scraped_video, get_video_by_id
 from utils import load_json
-from dotenv import load_dotenv
-
-# Load environment variables from .env file
-load_dotenv()
-api_key = os.getenv('YOUTUBE_API_KEY')
 
 # Load configuration from config.json
 config = load_json()
 
+api_key = config['YOUTUBE_API_KEY']
 # Set up the YouTube API client
 youtube = build("youtube", "v3", developerKey=api_key)
 
