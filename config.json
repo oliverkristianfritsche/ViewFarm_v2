@@ -1,0 +1,21 @@
+{
+    "botid": "multilanguage_reddit_pipeline",
+    
+    "YOUTUBE_API_KEY": "your_key_here",
+    "USER_AGENT": "personal_use_script",
+    "subreddits": "AmItheAsshole",
+    "num_posts": 11,
+    "youtubescrapper": {
+        "searchBy": "hashtag",
+        "searchValue": "gaming",
+        "maxResults": 300,
+        "order": "viewCount",
+        "shorts_category_id": "0",
+        "max_short_length": 60  
+    },
+    "target_language": [ "en","es","hi","pt","ar"],
+    "speaker_file": "/root/speakers/speaker_americanpyscho.wav",
+    "audio_speed": 2.5,
+    "video_speed": 1.5,
+    "max_video_length": 60
+}

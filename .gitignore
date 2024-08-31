@@ -7,7 +7,6 @@ audio_files
 *.wav
 *.mp3
 *.mp4
-config.json
 cookies.txt
 
 #ignore all pync files anywhere
