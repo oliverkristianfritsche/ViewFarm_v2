@@ -13,4 +13,4 @@
 	directory = B:/Espressif/frameworks/esp-idf-v5.0.2/components/openthread/openthread
 	directory = B:/Espressif/frameworks/esp-idf-v5.0.2
 [credential]
-	helper = "!f() { /root/.vscode-server/bin/fee1edb8d6d72a0ddff41e5f71a671c23ed924b9/node /tmp/vscode-remote-containers-c37baf10-5cf6-4829-be21-751e6944c135.js git-credential-helper $*; }; f"
+	helper = "!f() { /root/.vscode-server/bin/fee1edb8d6d72a0ddff41e5f71a671c23ed924b9/node /tmp/vscode-remote-containers-7b8d2486-d2ad-442d-95b9-75e75b02f7cd.js git-credential-helper $*; }; f"
