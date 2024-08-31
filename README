@@ -1,36 +1,31 @@
-# Table of Contents
+# Project Name
+
+## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Cloning the Repository](#cloning-the-repository)
-- [Configuring the `config.json` file](#configuring-the-configjson-file)
-- [Running the `build.ps1` script](#running-the-buildps1-script)
-- [Running the `run.ps1` script](#running-the-runps1-script)
-
----
+- [Configuring the `config.json` File](#configuring-the-configjson-file)
+- [Running the `build.ps1` Script](#running-the-buildps1-script)
+- [Running the `run.ps1` Script](#running-the-runps1-script)
 
 ## Prerequisites
 - **PowerShell 5.1 or later**
 - **Python 3.8 or later**
 - **Required dependencies** installed (see `requirements.txt`)
 
----
-
 ## Cloning the Repository
-1. **Open PowerShell** or your preferred terminal.
-2. **Clone the repository** by running the following command:
+1. Open PowerShell or your preferred terminal.
+2. Clone the repository by running the following command:
     ```bash
     git clone https://github.com/yourusername/yourrepository.git
     ```
-3. **Navigate to the project directory**:
+3. Navigate to the project directory:
     ```bash
     cd yourrepository
     ```
 
----
-
 ## Configuring the `config.json` File
-1. **Create a new file** named `config.json` in the root directory of the project.
-2. **Add the following structure** to the file:
-
+1. Create a new file named `config.json` in the root directory of the project.
+2. Add the following structure to the file:
     ```json
     {
       "botid": "your_bot_id",
@@ -55,8 +50,7 @@
       "max_video_length": 60
     }
     ```
-
-3. **Replace the placeholder values** with your own:
+3. Replace the placeholder values with your own:
     - `your_bot_id`: A unique identifier for your bot
     - `your_youtube_api_key`: Your YouTube API key
     - `your_search_value`: The value to search for on YouTube
@@ -65,21 +59,21 @@
     - `your_user_agent`: Your Reddit user agent
     - `your_subreddits`: The subreddits to scrape
 
----
-
 ## Running the `build.ps1` Script
-1. **Open PowerShell** and navigate to the root directory of the project.
-2. **Run the `build.ps1` script** by typing `.\build.ps1` and pressing Enter.
+1. Open PowerShell and navigate to the root directory of the project.
+2. Run the `build.ps1` script by typing:
+    ```bash
+    .\build.ps1
+    ```
 3. The script will install the required dependencies and build the project.
 
----
-
 ## Running the `run.ps1` Script
-1. **Ensure that you have correctly configured** the `config.json` file with your own values.
-2. **Open PowerShell** and navigate to the root directory of the project.
-3. **Run the `run.ps1` script** by typing `.\run.ps1` and pressing Enter.
+1. Ensure that you have correctly configured the `config.json` file with your own values.
+2. Open PowerShell and navigate to the root directory of the project.
+3. Run the `run.ps1` script by typing:
+    ```bash
+    .\run.ps1
+    ```
 4. The script will start the multilanguage Reddit pipeline.
 
----
-
-**Note:** Make sure to replace the placeholder values in the `config.json` file with your own values before running the `run.ps1` script.
+> **Note:** Make sure to replace the placeholder values in the `config.json` file with your own values before running the `run.ps1` script.
