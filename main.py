@@ -14,6 +14,7 @@ from scrappers.shorts_scrapper import scrape_shorts
 from scrappers.reddit_scrapper import init_reddit_client, get_top_n_hot_threads, get_post_details
 from downloaders.youtube_downloader import download_video
 from tts.generate_tts import generate_audio_tts_frog, translate_text_if_needed
+from dask.distributed import Client, wait
 
 # Load JSON config
 config = json.load(open('config.json'))
@@ -104,8 +105,6 @@ def process_language(language, posts, downloaded_videos):
                 break
 
             video_file = random.choice(downloaded_videos_copy)
-
-
             downloaded_videos_copy.remove(video_file)
 
             try:
@@ -138,29 +137,34 @@ def process_language(language, posts, downloaded_videos):
         except Exception as e:
             logging.error(f"Failed to write video for post {post_id} to {final_output_path}: {e}")
 
+def process_language_dask(language, posts, downloaded_videos):
+    process_language(language, posts, downloaded_videos)
+    return f"Processed {language}"
 
 if __name__ == "__main__":
+    # Connect to Dask Scheduler (replace with the actual scheduler address)
+    client = Client("tcp://192.168.3.132:8786")  # Replace <host-ip> with the actual IP of your host scheduler
+
     with contextlib.redirect_stdout(sys.stderr):  # Redirect stdout to suppress unwanted prints
         trending_shorts = scrape_shorts()
 
     for video in tqdm(trending_shorts, desc="Downloading videos"):
-        if config['youtubescrapper']['searchBy'] == 'trending':
-            video_id = video['id']
-        else:
-            video_id = video['id']['videoId']
+        video_id = video['id'] if config['youtubescrapper']['searchBy'] == 'trending' else video['id']['videoId']
         download_video(video_id)
 
-    #get paths of all mp4 files in /root/tmp/raw_shorts
-    downloaded_videos = []
-    for file in os.listdir('/root/tmp/raw_shorts'):
-        if file.endswith('.mp4'):
-            downloaded_videos.append(os.path.join('/root/tmp/raw_shorts', file))
+    # Get paths of all mp4 files in /root/tmp/raw_shorts
+    downloaded_videos = [os.path.join('/root/tmp/raw_shorts', file) for file in os.listdir('/root/tmp/raw_shorts') if file.endswith('.mp4')]
 
-    print(downloaded_videos)
-
-    
     reddit = init_reddit_client()
     posts = get_top_n_hot_threads(reddit, config['subreddits'], config['num_posts'])
 
-    for language in tqdm(config['target_language'], desc="Processing languages"):
-        process_language(language, posts, downloaded_videos)
+    # Use Dask to distribute the processing of languages
+    futures = [client.submit(process_language_dask, language, posts, downloaded_videos) for language in config['target_language']]
+
+    # Wait for all tasks to complete
+    wait(futures)
+
+    # Close the Dask client
+    client.close()
+
+    print("All languages processed.")
