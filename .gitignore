@@ -9,7 +9,7 @@ audio_files
 *.mp4
 config.json
 cookies.txt
-
+nltk_data
 #ignore all pync files anywhere
 *.pyc
 # ignore hidden folders but keep hidden files

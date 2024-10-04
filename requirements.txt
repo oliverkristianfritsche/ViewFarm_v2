@@ -1,7 +1,9 @@
+Cython>=3.0.0
+dask
+spacy==3.5.0
 pymongo
 bson
 selenium
-
 python-dotenv
 isodate
 pymongo[srv]==3.11
@@ -15,4 +17,3 @@ pydub
 google-api-python-client
 praw
 tqdm
-dask
